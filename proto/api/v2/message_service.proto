@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package mercury.api.v2;
+
+import "api/v2/common.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+
+option go_package = "gen/api/v2";
+
+service MercuryService {
+    rpc ListMessages(ListMessagesRequest) returns (ListMessagesResponse) {
+        option (google.api.http) = {get: "/api/v2/messages"};
+    }
+    rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {
+        option (google.api.http) = {get: "/api/v2/messages/{id}"};
+        option (google.api.method_signature) = "id";
+    }
+}
+
+message Message {
+    int32 id = 1;
+    RowStatus row_status = 2;
+    int32 creator_id = 3;
+    int64 creator_timestamp = 4;
+    int64 updated_timestamp = 5;
+    string content = 6;
+    Visibility visibility = 7;
+    bool pinned = 8;
+}
+
+message ListMessagesRequest {
+    int32 page = 1;
+    int32 page_size = 2;
+    string filter = 3;
+}
+
+message ListMessagesResponse {
+    repeated Message messages = 1;
+}
+
+message GetMessageRequest {
+    int32 id = 1;
+}
+
+message GetMessageResponse {
+    Message message = 1;
+}
+
+enum Visibility {
+    VISIBILITY_UNSPECIFIED = 0;
+    PRIVATE = 1;
+    PROTECTED = 2;
+    PUBLIC = 3;
+}

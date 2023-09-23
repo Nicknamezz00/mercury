@@ -19,3 +19,10 @@
 
 # Go workspace file
 go.work
+
+.idea
+.vscode
+
+# Third-party dependencies
+# https://github.com/googleapis/googleapis/tree/master/google/api
+proto/google
