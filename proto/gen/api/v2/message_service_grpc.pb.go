@@ -19,126 +19,126 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MercuryService_ListMessages_FullMethodName = "/mercury.api.v2.MercuryService/ListMessages"
-	MercuryService_GetMessage_FullMethodName   = "/mercury.api.v2.MercuryService/GetMessage"
+	MessageService_ListMessages_FullMethodName = "/mercury.api.v2.MessageService/ListMessages"
+	MessageService_GetMessage_FullMethodName   = "/mercury.api.v2.MessageService/GetMessage"
 )
 
-// MercuryServiceClient is the client API for MercuryService service.
+// MessageServiceClient is the client API for MessageService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type MercuryServiceClient interface {
+type MessageServiceClient interface {
 	ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error)
 	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error)
 }
 
-type mercuryServiceClient struct {
+type messageServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewMercuryServiceClient(cc grpc.ClientConnInterface) MercuryServiceClient {
-	return &mercuryServiceClient{cc}
+func NewMessageServiceClient(cc grpc.ClientConnInterface) MessageServiceClient {
+	return &messageServiceClient{cc}
 }
 
-func (c *mercuryServiceClient) ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error) {
+func (c *messageServiceClient) ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error) {
 	out := new(ListMessagesResponse)
-	err := c.cc.Invoke(ctx, MercuryService_ListMessages_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, MessageService_ListMessages_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *mercuryServiceClient) GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error) {
+func (c *messageServiceClient) GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error) {
 	out := new(GetMessageResponse)
-	err := c.cc.Invoke(ctx, MercuryService_GetMessage_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, MessageService_GetMessage_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// MercuryServiceServer is the server API for MercuryService service.
-// All implementations must embed UnimplementedMercuryServiceServer
+// MessageServiceServer is the server API for MessageService service.
+// All implementations must embed UnimplementedMessageServiceServer
 // for forward compatibility
-type MercuryServiceServer interface {
+type MessageServiceServer interface {
 	ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error)
 	GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error)
-	mustEmbedUnimplementedMercuryServiceServer()
+	mustEmbedUnimplementedMessageServiceServer()
 }
 
-// UnimplementedMercuryServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedMercuryServiceServer struct {
+// UnimplementedMessageServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedMessageServiceServer struct {
 }
 
-func (UnimplementedMercuryServiceServer) ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error) {
+func (UnimplementedMessageServiceServer) ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMessages not implemented")
 }
-func (UnimplementedMercuryServiceServer) GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error) {
+func (UnimplementedMessageServiceServer) GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessage not implemented")
 }
-func (UnimplementedMercuryServiceServer) mustEmbedUnimplementedMercuryServiceServer() {}
+func (UnimplementedMessageServiceServer) mustEmbedUnimplementedMessageServiceServer() {}
 
-// UnsafeMercuryServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MercuryServiceServer will
+// UnsafeMessageServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MessageServiceServer will
 // result in compilation errors.
-type UnsafeMercuryServiceServer interface {
-	mustEmbedUnimplementedMercuryServiceServer()
+type UnsafeMessageServiceServer interface {
+	mustEmbedUnimplementedMessageServiceServer()
 }
 
-func RegisterMercuryServiceServer(s grpc.ServiceRegistrar, srv MercuryServiceServer) {
-	s.RegisterService(&MercuryService_ServiceDesc, srv)
+func RegisterMessageServiceServer(s grpc.ServiceRegistrar, srv MessageServiceServer) {
+	s.RegisterService(&MessageService_ServiceDesc, srv)
 }
 
-func _MercuryService_ListMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MessageService_ListMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListMessagesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MercuryServiceServer).ListMessages(ctx, in)
+		return srv.(MessageServiceServer).ListMessages(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MercuryService_ListMessages_FullMethodName,
+		FullMethod: MessageService_ListMessages_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MercuryServiceServer).ListMessages(ctx, req.(*ListMessagesRequest))
+		return srv.(MessageServiceServer).ListMessages(ctx, req.(*ListMessagesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MercuryService_GetMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MessageService_GetMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MercuryServiceServer).GetMessage(ctx, in)
+		return srv.(MessageServiceServer).GetMessage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MercuryService_GetMessage_FullMethodName,
+		FullMethod: MessageService_GetMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MercuryServiceServer).GetMessage(ctx, req.(*GetMessageRequest))
+		return srv.(MessageServiceServer).GetMessage(ctx, req.(*GetMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// MercuryService_ServiceDesc is the grpc.ServiceDesc for MercuryService service.
+// MessageService_ServiceDesc is the grpc.ServiceDesc for MessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var MercuryService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "mercury.api.v2.MercuryService",
-	HandlerType: (*MercuryServiceServer)(nil),
+var MessageService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "mercury.api.v2.MessageService",
+	HandlerType: (*MessageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "ListMessages",
-			Handler:    _MercuryService_ListMessages_Handler,
+			Handler:    _MessageService_ListMessages_Handler,
 		},
 		{
 			MethodName: "GetMessage",
-			Handler:    _MercuryService_GetMessage_Handler,
+			Handler:    _MessageService_GetMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

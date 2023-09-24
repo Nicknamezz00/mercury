@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package mercury.store;
+
+option go_package = "gen/store";
+
+message UserSetting {
+  int32 user_id = 1;
+  UserSettingKey key = 2;
+  oneof value {
+    AccessTokensUserSetting access_token = 3;
+  }
+}
+
+enum UserSettingKey {
+  USER_SETTING_KEY_UNSPECIFIED = 0;
+  USER_SETTING_ACCESS_TOKENS = 1;
+}
+
+message AccessTokensUserSetting {
+  message AccessToken {
+    // This is a JWT token.
+    string access_token = 1;
+    string description = 2;
+  }
+  repeated AccessToken access_tokens = 1;
+}

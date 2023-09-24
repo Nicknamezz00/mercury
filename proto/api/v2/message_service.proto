@@ -8,7 +8,7 @@ import "google/api/client.proto";
 
 option go_package = "gen/api/v2";
 
-service MercuryService {
+service MessageService {
     rpc ListMessages(ListMessagesRequest) returns (ListMessagesResponse) {
         option (google.api.http) = {get: "/api/v2/messages"};
     }

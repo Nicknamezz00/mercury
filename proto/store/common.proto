@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package mercury.store;
+
+option go_package = "gen/store";

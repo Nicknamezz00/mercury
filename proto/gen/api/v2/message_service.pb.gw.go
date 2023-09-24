@@ -32,17 +32,17 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 var (
-	filter_MercuryService_ListMessages_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	filter_MessageService_ListMessages_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_MercuryService_ListMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MercuryServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_MessageService_ListMessages_0(ctx context.Context, marshaler runtime.Marshaler, client MessageServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListMessagesRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_MercuryService_ListMessages_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_MessageService_ListMessages_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -51,14 +51,14 @@ func request_MercuryService_ListMessages_0(ctx context.Context, marshaler runtim
 
 }
 
-func local_request_MercuryService_ListMessages_0(ctx context.Context, marshaler runtime.Marshaler, server MercuryServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_MessageService_ListMessages_0(ctx context.Context, marshaler runtime.Marshaler, server MessageServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ListMessagesRequest
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_MercuryService_ListMessages_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_MessageService_ListMessages_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -67,7 +67,7 @@ func local_request_MercuryService_ListMessages_0(ctx context.Context, marshaler 
 
 }
 
-func request_MercuryService_GetMessage_0(ctx context.Context, marshaler runtime.Marshaler, client MercuryServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_MessageService_GetMessage_0(ctx context.Context, marshaler runtime.Marshaler, client MessageServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetMessageRequest
 	var metadata runtime.ServerMetadata
 
@@ -93,7 +93,7 @@ func request_MercuryService_GetMessage_0(ctx context.Context, marshaler runtime.
 
 }
 
-func local_request_MercuryService_GetMessage_0(ctx context.Context, marshaler runtime.Marshaler, server MercuryServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_MessageService_GetMessage_0(ctx context.Context, marshaler runtime.Marshaler, server MessageServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetMessageRequest
 	var metadata runtime.ServerMetadata
 
@@ -119,13 +119,13 @@ func local_request_MercuryService_GetMessage_0(ctx context.Context, marshaler ru
 
 }
 
-// RegisterMercuryServiceHandlerServer registers the http handlers for service MercuryService to "mux".
-// UnaryRPC     :call MercuryServiceServer directly.
+// RegisterMessageServiceHandlerServer registers the http handlers for service MessageService to "mux".
+// UnaryRPC     :call MessageServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMercuryServiceHandlerFromEndpoint instead.
-func RegisterMercuryServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MercuryServiceServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMessageServiceHandlerFromEndpoint instead.
+func RegisterMessageServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MessageServiceServer) error {
 
-	mux.Handle("GET", pattern_MercuryService_ListMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_MessageService_ListMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -133,12 +133,12 @@ func RegisterMercuryServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.MercuryService/ListMessages", runtime.WithHTTPPathPattern("/api/v2/messages"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.MessageService/ListMessages", runtime.WithHTTPPathPattern("/api/v2/messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_MercuryService_ListMessages_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MessageService_ListMessages_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -146,11 +146,11 @@ func RegisterMercuryServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_MercuryService_ListMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MessageService_ListMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_MercuryService_GetMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_MessageService_GetMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -158,12 +158,12 @@ func RegisterMercuryServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.MercuryService/GetMessage", runtime.WithHTTPPathPattern("/api/v2/messages/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.MessageService/GetMessage", runtime.WithHTTPPathPattern("/api/v2/messages/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_MercuryService_GetMessage_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_MessageService_GetMessage_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -171,16 +171,16 @@ func RegisterMercuryServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_MercuryService_GetMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MessageService_GetMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterMercuryServiceHandlerFromEndpoint is same as RegisterMercuryServiceHandler but
+// RegisterMessageServiceHandlerFromEndpoint is same as RegisterMessageServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterMercuryServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterMessageServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
@@ -200,63 +200,63 @@ func RegisterMercuryServiceHandlerFromEndpoint(ctx context.Context, mux *runtime
 		}()
 	}()
 
-	return RegisterMercuryServiceHandler(ctx, mux, conn)
+	return RegisterMessageServiceHandler(ctx, mux, conn)
 }
 
-// RegisterMercuryServiceHandler registers the http handlers for service MercuryService to "mux".
+// RegisterMessageServiceHandler registers the http handlers for service MessageService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterMercuryServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterMercuryServiceHandlerClient(ctx, mux, NewMercuryServiceClient(conn))
+func RegisterMessageServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterMessageServiceHandlerClient(ctx, mux, NewMessageServiceClient(conn))
 }
 
-// RegisterMercuryServiceHandlerClient registers the http handlers for service MercuryService
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "MercuryServiceClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "MercuryServiceClient"
+// RegisterMessageServiceHandlerClient registers the http handlers for service MessageService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "MessageServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "MessageServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "MercuryServiceClient" to call the correct interceptors.
-func RegisterMercuryServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MercuryServiceClient) error {
+// "MessageServiceClient" to call the correct interceptors.
+func RegisterMessageServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MessageServiceClient) error {
 
-	mux.Handle("GET", pattern_MercuryService_ListMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_MessageService_ListMessages_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.MercuryService/ListMessages", runtime.WithHTTPPathPattern("/api/v2/messages"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.MessageService/ListMessages", runtime.WithHTTPPathPattern("/api/v2/messages"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MercuryService_ListMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MessageService_ListMessages_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MercuryService_ListMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MessageService_ListMessages_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_MercuryService_GetMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_MessageService_GetMessage_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.MercuryService/GetMessage", runtime.WithHTTPPathPattern("/api/v2/messages/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.MessageService/GetMessage", runtime.WithHTTPPathPattern("/api/v2/messages/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_MercuryService_GetMessage_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_MessageService_GetMessage_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_MercuryService_GetMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_MessageService_GetMessage_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -264,13 +264,13 @@ func RegisterMercuryServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_MercuryService_ListMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "messages"}, ""))
+	pattern_MessageService_ListMessages_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v2", "messages"}, ""))
 
-	pattern_MercuryService_GetMessage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v2", "messages", "id"}, ""))
+	pattern_MessageService_GetMessage_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v2", "messages", "id"}, ""))
 )
 
 var (
-	forward_MercuryService_ListMessages_0 = runtime.ForwardResponseMessage
+	forward_MessageService_ListMessages_0 = runtime.ForwardResponseMessage
 
-	forward_MercuryService_GetMessage_0 = runtime.ForwardResponseMessage
+	forward_MessageService_GetMessage_0 = runtime.ForwardResponseMessage
 )
