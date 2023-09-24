@@ -26,3 +26,4 @@ go.work
 # Third-party dependencies
 # https://github.com/googleapis/googleapis/tree/master/google/api
 proto/google
+*.db
