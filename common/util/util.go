@@ -25,7 +25,10 @@
 
 package util
 
-import "strconv"
+import (
+	"strconv"
+	"strings"
+)
 
 // ConvertStringToInt32 converts a string to int32, be careful with int32 overflow.
 func ConvertStringToInt32(s string) (int32, error) {
@@ -34,4 +37,13 @@ func ConvertStringToInt32(s string) (int32, error) {
 		return 0, err
 	}
 	return int32(n), nil
+}
+
+func HasPrefixes(src string, prefixes ...string) bool {
+	for _, pre := range prefixes {
+		if strings.HasPrefix(src, pre) {
+			return true
+		}
+	}
+	return false
 }

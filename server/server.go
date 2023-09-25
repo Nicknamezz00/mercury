@@ -23,12 +23,18 @@
  *
  */
 
-package mercury
+package server
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/Nicknamezz00/mercury/server/profile"
+	"github.com/Nicknamezz00/mercury/store"
+	"github.com/labstack/echo/v4"
+)
 
 type Server struct {
-	e      *echo.Echo
-	ID     string
-	Secret string
+	e       *echo.Echo
+	ID      string
+	Secret  string
+	Profile *profile.Profile
+	Store   *store.Store
 }
