@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import {Suspense, useState} from 'react';
+import './index.css';
+import {Outlet} from "react-router-dom";
+import Loading from "@/pages/Loading";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+const App = () => {
+  const [loading] = useState(true);
+
+  return loading ? (<Loading />) : (
+    <Suspense fallback={<Loading />}>
+      <Outlet />
+    </Suspense>
+  );
+};
+
+export default App;
