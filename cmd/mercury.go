@@ -23,29 +23,12 @@
  *
  */
 
-package db
+package cmd
 
 import (
-	"context"
-	"database/sql"
-	"github.com/Nicknamezz00/mercury/server/profile"
+	_profile "github.com/Nicknamezz00/mercury/server/profile"
 )
 
-type DB struct {
-	DBInstance *sql.DB
-	profile    *profile.Profile
-}
-
-func New(profile *profile.Profile) *DB {
-	return &DB{
-		profile: profile,
-	}
-}
-
-func (d *DB) Open() error {
-	panic("implement me")
-}
-
-func (d *DB) Migrate(ctx context.Context) error {
-	panic("implement me")
-}
+var (
+	profile *_profile.Profile
+)
