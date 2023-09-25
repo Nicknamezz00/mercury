@@ -84,7 +84,7 @@ func (d *DB) UpsertMigrationHistory(ctx context.Context, upsert *UpsertMigration
 		VALUES (?)
 		ON CONFLICT (version) DO UPDATE 
 		SET 
-		  version=EXCLUDED.version
+		  version = EXCLUDED.version
 		RETURNING version, created_timestamp
   `
 	var m MigrationHistory

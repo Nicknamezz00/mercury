@@ -1,16 +1,7 @@
-import {Suspense, useState} from 'react';
 import './index.css';
-import {Outlet} from "react-router-dom";
-import Loading from "@/pages/Loading";
+import {createRoot} from "react-dom/client";
 
-const App = () => {
-  const [loading] = useState(true);
+const container = document.getElementById("root");
+const root = createRoot(container as HTMLElement);
 
-  return loading ? (<Loading />) : (
-    <Suspense fallback={<Loading />}>
-      <Outlet />
-    </Suspense>
-  );
-};
-
-export default App;
+root.render();
