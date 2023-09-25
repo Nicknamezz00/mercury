@@ -30,6 +30,7 @@ import (
 	"fmt"
 	"github.com/Nicknamezz00/mercury/store"
 	"github.com/Nicknamezz00/mercury/store/db"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"time"
 )
@@ -73,6 +74,31 @@ var (
 	}
 )
 
+type setupService struct {
+	store *store.Store
+}
+
+func (s setupService) Setup(ctx context.Context, username string, password string) error {
+	if err := s.makeSureHostUserNotExists(ctx); err != nil {
+		return err
+	}
+	if err := s.createUser(ctx, username, password); err != nil {
+		return errors.Wrap(err, "create user error")
+	}
+	return nil
+}
+
+func (s setupService) createUser(ctx context.Context, username string, password string) error {
+	panic("impl me")
+}
+
+func (s setupService) makeSureHostUserNotExists(ctx context.Context) error {
+	panic("impl me")
+}
+
 func setup(ctx context.Context, s *store.Store, username string, password string) error {
-	panic("implement me")
+	svc := setupService{
+		store: s,
+	}
+	return svc.Setup(ctx, username, password)
 }
