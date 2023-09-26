@@ -3,6 +3,7 @@ module github.com/Nicknamezz00/mercury
 go 1.21.1
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/pkg/errors v0.9.1
