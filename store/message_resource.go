@@ -147,3 +147,17 @@ func (s *Store) DeleteMessageResource(ctx context.Context, delete *DeleteMessage
 	}
 	return nil
 }
+
+func vacuumMessageResource(ctx context.Context, tx *sql.Tx) error {
+	stmt := `
+		DELETE FROM
+			message_resource
+		WHERE
+			message_id NOT IN (SELECT id FROM message)
+			OR resource_id NOT IN (SELECT id FROM resource)
+	`
+	if _, err := tx.ExecContext(ctx, stmt); err != nil {
+		return err
+	}
+	return nil
+}

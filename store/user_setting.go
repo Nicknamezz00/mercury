@@ -120,6 +120,20 @@ func (s *Store) GetUserSetting(ctx context.Context, find *FindUserSetting) (*Use
 	s.userSettingCache.Store(cacheKey, userSetting)
 	return userSetting, nil
 }
+
 func getUserSettingCacheKey(id int32, key string) string {
 	return fmt.Sprintf("%d-%s", id, key)
+}
+
+func vacuumUserSetting(ctx context.Context, tx *sql.Tx) error {
+	stmt := `
+		DELETE FROM
+			user_setting
+		WHERE
+			user_id NOT IN (SELECT id FROM user)
+	`
+	if _, err := tx.ExecContext(ctx, stmt); err != nil {
+		return err
+	}
+	return nil
 }

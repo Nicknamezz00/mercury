@@ -115,5 +115,17 @@ func (s *Store) vacuum(ctx context.Context, tx *sql.Tx) error {
 	if err := vacuumMessage(ctx, tx); err != nil {
 		return err
 	}
+	if err := vacuumUserSetting(ctx, tx); err != nil {
+		return err
+	}
+	if err := vacuumMessageOrganizer(ctx, tx); err != nil {
+		return err
+	}
+	if err := vacuumMessageResource(ctx, tx); err != nil {
+		return err
+	}
+	if err := vacuumMessageRelation(ctx, tx); err != nil {
+		return err
+	}
 	return nil
 }

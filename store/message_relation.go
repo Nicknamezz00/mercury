@@ -25,6 +25,11 @@
 
 package store
 
+import (
+	"context"
+	"database/sql"
+)
+
 type MessageRelationType string
 
 const (
@@ -48,4 +53,18 @@ type DeleteMessageRelation struct {
 	MessageID      *int32
 	RelatedMessage *int32
 	Type           *MessageRelationType
+}
+
+func vacuumMessageRelation(ctx context.Context, tx *sql.Tx) error {
+	stmt := `
+		DELETE FROM
+			message_relation
+		WHERE
+			message_id NOT IN (SELECT id FROM message)
+			OR related_message_id NOT IN (SELECT id FROM message)
+	`
+	if _, err := tx.ExecContext(ctx, stmt); err != nil {
+		return err
+	}
+	return nil
 }
