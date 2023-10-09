@@ -23,38 +23,61 @@
 import { PayloadAction, createSlice} from "@reduxjs/toolkit";
 
 interface State {
-  host?: User;
-  user?: User;
+  locale: Locale;
+  appearance: Appearance;
+  systemStatus: SystemStatus;
 }
 
-const userSlice = createSlice({
-  name: "user",
-  initialState: {} as State,
+const globalSlice = createSlice({
+  name: "global",
+  initialState: {
+    locale: "en",
+    appearance: "system",
+    systemStatus: {
+      host: undefined, 
+      profile: {
+        mode: "dev",
+        version: "",
+      },
+      dbSize: 0,
+      allowSignUp: false,
+      disablePasswordLogin: false,
+      disablePublicMessages: false,
+      additionalStyle: "",
+      additionalScript: "",
+      customizedProfile: {
+        name: "mercury",
+        logoURL: "/logo.webp",
+        description: "",
+        locale: "en",
+        appearance: "system",
+        externalURL: "",
+      },
+      messageDisplayWithUpdatedTimestamp: false,
+    },
+  } as State,
   reducers: {
-    setHost: (state, action: PayloadAction<User | undefined>) => {
+    setGlobalState: (state, action: PayloadAction<Partial<State>>) => {
       return {
         ...state,
-        host: action.payload,
+        ...action.payload,
       };
     },
-    setUser: (state, action: PayloadAction<User | undefined>) => {
+    setLocale: (state, action: PayloadAction<Locale>) => {
       return {
         ...state,
-        user: action.payload,
+        locale: action.payload,
       };
     },
-    patchUser: (state, action: PayloadAction<Partial<User>>) => {
+    setAppearance: (state, action: PayloadAction<Appearance>) => {
       return {
         ...state,
-        user: {
-          ...state.user,
-          ...action.payload,
-        } as User,
+        appearance: action.payload,
       };
     },
   },
 });
 
-export const { setHost, setUser, patchUser } = userSlice.actions;
+export const { setGlobalState, setLocale, setAppearance } = globalSlice.actions;
 
-export default userSlice.reducer;
+export default globalSlice.reducer;
