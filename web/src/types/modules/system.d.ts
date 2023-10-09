@@ -25,6 +25,15 @@ interface Profile {
   version: string;
 }
 
+interface CustomizedProfile {
+  name: string;
+  logoURL: string;
+  description: string;
+  locale: Locale;
+  appearance: Appearance;
+  externalURL: string;
+}
+
 interface SystemSetting {
   name: string;
   value: string;

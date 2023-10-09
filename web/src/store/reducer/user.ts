@@ -20,41 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-type UserId = number;
-type UserRole = "HOST" | "USER";
+import { PayloadAction, createSlice} from "@reduxjs/toolkit";
 
-interface User {
-  id: UserId;
-  rowStatus: RowStatus;
-  createdTimestamp: number;
-  updatedTimestamp: number;
-  username: string;
-  role: UserRole;
-  email: string;
-  nickname: string;
-  avatarURL: string;
-
-  userSettingList: UserSetting[];
-  setting: Setting;
-  localSetting: LocalSetting;
+interface State {
+  host?: User;
+  user?: User;
 }
 
-interface UserCreate {
-  username: string;
-  password: string;
-  role: UserRole;
-}
+const userSlice = createSlice({
+  name: "user",
+  initialState: {} as State,
+  reducers: {
+    setHost: (state, action: PayloadAction<User | undefined>) => {
+      return {
+        ...state,
+        host: action.payload,
+      };
+    },
+    setUser: (state, action: PayloadAction<User | undefined>) => {
+      return {
+        ...state,
+        user: action.payload,
+      };
+    },
+    patchUser: (state, action: PayloadAction<Partial<User>>) => {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.payload,
+        } as User,
+      };
+    },
+  },
+});
 
-interface UserPatch {
-  id: UserId;
-  rowStatus?: RowStatus;
-  username?: string;
-  email?: string;
-  nickname?: string;
-  avartarURL?: string;
-  password?: string;
-}
+export const {setHost, setUser, patchUser } = userSlice.actions;
 
-interface UserDelete {
-  id: UserId;
-}
+export default userSlice.reducer;

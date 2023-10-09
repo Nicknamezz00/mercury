@@ -20,41 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-type UserId = number;
-type UserRole = "HOST" | "USER";
+type ResourceId = number;
 
-interface User {
-  id: UserId;
-  rowStatus: RowStatus;
-  createdTimestamp: number;
-  updatedTimestamp: number;
-  username: string;
-  role: UserRole;
-  email: string;
-  nickname: string;
-  avatarURL: string;
-
-  userSettingList: UserSetting[];
-  setting: Setting;
-  localSetting: LocalSetting;
+interface ResourceCreate {
+  filename: string;
+  externalURL: string;
+  type: string;
 }
 
-interface UserCreate {
-  username: string;
-  password: string;
-  role: UserRole;
+interface ResourcePatch {
+  id: ResourceId;
+  filename?: string;
 }
 
-interface UserPatch {
-  id: UserId;
-  rowStatus?: RowStatus;
-  username?: string;
-  email?: string;
-  nickname?: string;
-  avartarURL?: string;
-  password?: string;
-}
-
-interface UserDelete {
-  id: UserId;
+interface ResourceFind {
+  offset?: number;
+  limit?: number;
 }
