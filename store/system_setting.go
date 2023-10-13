@@ -25,11 +25,7 @@
 
 package store
 
-import (
-	"context"
-	"database/sql"
-	"strings"
-)
+import "context"
 
 type SystemSetting struct {
 	Name        string
@@ -42,59 +38,16 @@ type FindSystemSetting struct {
 }
 
 func (s *Store) UpsertSystemSetting(ctx context.Context, upsert *SystemSetting) (*SystemSetting, error) {
-	stmt := `
-		INSERT INTO system_setting (
-			name, value, description
-		)
-		VALUES (?, ?, ?)
-		ON CONFLICT(name) DO UPDATE 
-		SET
-			value = EXCLUDED.value,
-			description = EXCLUDED.description
-	`
-	if _, err := s.db.ExecContext(ctx, stmt, upsert.Name, upsert.Value, upsert.Description); err != nil {
-		return nil, err
-	}
-	ss := upsert
-	return ss, nil
+	return s.driver.UpsertSystemSetting(ctx, upsert)
 }
 
 func (s *Store) ListSystemSettings(ctx context.Context, find *FindSystemSetting) ([]*SystemSetting, error) {
-	where, args := []string{"1 = 1"}, []any{}
-	if find.Name != "" {
-		where, args = append(where, "name = ?"), append(args, find.Name)
-	}
-	query := `
-		SELECT
-			name,
-			value,
-			description
-		FROM system_setting
-		WHERE ` + strings.Join(where, " AND ")
-	rows, err := s.db.QueryContext(ctx, query, args...)
+	list, err := s.driver.ListSystemSettings(ctx, find)
 	if err != nil {
 		return nil, err
 	}
-	defer func(rows *sql.Rows) {
-		_ = rows.Close()
-	}(rows)
-	list := []*SystemSetting{}
-	for rows.Next() {
-		ss := &SystemSetting{}
-		if err := rows.Scan(
-			&ss.Name,
-			&ss.Value,
-			&ss.Description,
-		); err != nil {
-			return nil, err
-		}
-		list = append(list, ss)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	for _, ss := range list {
-		s.systemSettingCache.Store(ss.Name, ss)
+	for _, systemSettingMessage := range list {
+		s.systemSettingCache.Store(systemSettingMessage.Name, systemSettingMessage)
 	}
 	return list, nil
 }
@@ -112,15 +65,15 @@ func (s *Store) GetSystemSetting(ctx context.Context, find *FindSystemSetting) (
 	if len(list) == 0 {
 		return nil, nil
 	}
-	ss := list[0]
-	s.systemSettingCache.Store(ss.Name, ss)
-	return ss, nil
+	systemSettingMessage := list[0]
+	s.systemSettingCache.Store(systemSettingMessage.Name, systemSettingMessage)
+	return systemSettingMessage, nil
 }
 
-func (s *Store) GetSystemSettingWithDefault(ctx *context.Context, settingName, defaultValue string) string {
+func (s *Store) GetSystemSettingValueWithDefault(ctx *context.Context, settingName string, defaultValue string) string {
 	if setting, err := s.GetSystemSetting(*ctx, &FindSystemSetting{
 		Name: settingName,
-	}); err != nil && setting.Value != "" {
+	}); err == nil && setting != nil {
 		return setting.Value
 	}
 	return defaultValue

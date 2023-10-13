@@ -19,23 +19,26 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector, useDispatch } from "react-redux";
 import globalReducer from "./reducer/global";
+import messageReducer from "./reducer/message";
+import resourceReducer from "./reducer/resource";
 import userReducer from "./reducer/user";
 
 const store = configureStore({
   reducer: {
     global: globalReducer,
     user: userReducer,
+    message: messageReducer,
+    resource: resourceReducer,
   },
 });
 
 type AppState = ReturnType<typeof store.getState>;
-type AppDispath = ReturnType<typeof store.dispatch>;
+type AppDispatch = ReturnType<typeof store.dispatch>;
 
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
-export const useAppDispatch: () => AppDispath = useDispatch; 
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
 export default store;

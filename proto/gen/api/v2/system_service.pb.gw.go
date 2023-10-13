@@ -99,7 +99,7 @@ func RegisterSystemServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/memos.api.v2.SystemService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.SystemService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -124,7 +124,7 @@ func RegisterSystemServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/memos.api.v2.SystemService/UpdateSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/mercury.api.v2.SystemService/UpdateSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -188,7 +188,7 @@ func RegisterSystemServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/memos.api.v2.SystemService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.SystemService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -210,7 +210,7 @@ func RegisterSystemServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/memos.api.v2.SystemService/UpdateSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/mercury.api.v2.SystemService/UpdateSystemInfo", runtime.WithHTTPPathPattern("/api/v2/system/info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return

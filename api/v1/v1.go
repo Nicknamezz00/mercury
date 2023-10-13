@@ -29,6 +29,9 @@ import (
 	"github.com/Nicknamezz00/mercury/server/profile"
 	"github.com/Nicknamezz00/mercury/store"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"net/http"
+	"time"
 )
 
 type APIV1Service struct {
@@ -46,5 +49,30 @@ func NewAPIV1Service(secret string, profile *profile.Profile, store *store.Store
 }
 
 func (s *APIV1Service) Register(root *echo.Group) {
-	panic("impl me")
+	s.registerRSSRoutes(root)
+
+	// API v1 routers.
+	apiV1Group := root.Group("/api/v1")
+	apiV1Group.Use(middleware.RateLimiterWithConfig(middleware.RateLimiterConfig{
+		IdentifierExtractor: func(ctx echo.Context) (string, error) {
+			id := ctx.RealIP()
+			return id, nil
+		},
+		Store: middleware.NewRateLimiterMemoryStoreWithConfig(
+			middleware.RateLimiterMemoryStoreConfig{
+				Rate:      30,
+				Burst:     100,
+				ExpiresIn: 3 * time.Minute,
+			},
+		),
+		ErrorHandler: func(ctx echo.Context, err error) error {
+			return ctx.JSON(http.StatusForbidden, nil)
+		},
+		DenyHandler: func(ctx echo.Context, identifier string, err error) error {
+			return ctx.JSON(http.StatusTooManyRequests, nil)
+		},
+	}))
+	apiV1Group.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return JWTMiddleware(s, next, s.Secret)
+	})
 }

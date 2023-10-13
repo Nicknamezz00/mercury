@@ -19,16 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	MessageService_ListMessages_FullMethodName = "/mercury.api.v2.MessageService/ListMessages"
-	MessageService_GetMessage_FullMethodName   = "/mercury.api.v2.MessageService/GetMessage"
+	MessageService_CreateMessage_FullMethodName        = "/mercury.api.v2.MessageService/CreateMessage"
+	MessageService_ListMessages_FullMethodName         = "/mercury.api.v2.MessageService/ListMessages"
+	MessageService_GetMessage_FullMethodName           = "/mercury.api.v2.MessageService/GetMessage"
+	MessageService_CreateMessageComment_FullMethodName = "/mercury.api.v2.MessageService/CreateMessageComment"
+	MessageService_ListMessageComments_FullMethodName  = "/mercury.api.v2.MessageService/ListMessageComments"
 )
 
 // MessageServiceClient is the client API for MessageService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MessageServiceClient interface {
+	CreateMessage(ctx context.Context, in *CreateMessageRequest, opts ...grpc.CallOption) (*CreateMessageResponse, error)
 	ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error)
 	GetMessage(ctx context.Context, in *GetMessageRequest, opts ...grpc.CallOption) (*GetMessageResponse, error)
+	CreateMessageComment(ctx context.Context, in *CreateMessageCommentRequest, opts ...grpc.CallOption) (*CreateMessageCommentResponse, error)
+	ListMessageComments(ctx context.Context, in *ListMessageCommentsRequest, opts ...grpc.CallOption) (*ListMessageCommentsResponse, error)
 }
 
 type messageServiceClient struct {
@@ -37,6 +43,15 @@ type messageServiceClient struct {
 
 func NewMessageServiceClient(cc grpc.ClientConnInterface) MessageServiceClient {
 	return &messageServiceClient{cc}
+}
+
+func (c *messageServiceClient) CreateMessage(ctx context.Context, in *CreateMessageRequest, opts ...grpc.CallOption) (*CreateMessageResponse, error) {
+	out := new(CreateMessageResponse)
+	err := c.cc.Invoke(ctx, MessageService_CreateMessage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *messageServiceClient) ListMessages(ctx context.Context, in *ListMessagesRequest, opts ...grpc.CallOption) (*ListMessagesResponse, error) {
@@ -57,12 +72,33 @@ func (c *messageServiceClient) GetMessage(ctx context.Context, in *GetMessageReq
 	return out, nil
 }
 
+func (c *messageServiceClient) CreateMessageComment(ctx context.Context, in *CreateMessageCommentRequest, opts ...grpc.CallOption) (*CreateMessageCommentResponse, error) {
+	out := new(CreateMessageCommentResponse)
+	err := c.cc.Invoke(ctx, MessageService_CreateMessageComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *messageServiceClient) ListMessageComments(ctx context.Context, in *ListMessageCommentsRequest, opts ...grpc.CallOption) (*ListMessageCommentsResponse, error) {
+	out := new(ListMessageCommentsResponse)
+	err := c.cc.Invoke(ctx, MessageService_ListMessageComments_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MessageServiceServer is the server API for MessageService service.
 // All implementations must embed UnimplementedMessageServiceServer
 // for forward compatibility
 type MessageServiceServer interface {
+	CreateMessage(context.Context, *CreateMessageRequest) (*CreateMessageResponse, error)
 	ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error)
 	GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error)
+	CreateMessageComment(context.Context, *CreateMessageCommentRequest) (*CreateMessageCommentResponse, error)
+	ListMessageComments(context.Context, *ListMessageCommentsRequest) (*ListMessageCommentsResponse, error)
 	mustEmbedUnimplementedMessageServiceServer()
 }
 
@@ -70,11 +106,20 @@ type MessageServiceServer interface {
 type UnimplementedMessageServiceServer struct {
 }
 
+func (UnimplementedMessageServiceServer) CreateMessage(context.Context, *CreateMessageRequest) (*CreateMessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMessage not implemented")
+}
 func (UnimplementedMessageServiceServer) ListMessages(context.Context, *ListMessagesRequest) (*ListMessagesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMessages not implemented")
 }
 func (UnimplementedMessageServiceServer) GetMessage(context.Context, *GetMessageRequest) (*GetMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessage not implemented")
+}
+func (UnimplementedMessageServiceServer) CreateMessageComment(context.Context, *CreateMessageCommentRequest) (*CreateMessageCommentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMessageComment not implemented")
+}
+func (UnimplementedMessageServiceServer) ListMessageComments(context.Context, *ListMessageCommentsRequest) (*ListMessageCommentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMessageComments not implemented")
 }
 func (UnimplementedMessageServiceServer) mustEmbedUnimplementedMessageServiceServer() {}
 
@@ -87,6 +132,24 @@ type UnsafeMessageServiceServer interface {
 
 func RegisterMessageServiceServer(s grpc.ServiceRegistrar, srv MessageServiceServer) {
 	s.RegisterService(&MessageService_ServiceDesc, srv)
+}
+
+func _MessageService_CreateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMessageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageServiceServer).CreateMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageService_CreateMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageServiceServer).CreateMessage(ctx, req.(*CreateMessageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _MessageService_ListMessages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -125,6 +188,42 @@ func _MessageService_GetMessage_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MessageService_CreateMessageComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMessageCommentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageServiceServer).CreateMessageComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageService_CreateMessageComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageServiceServer).CreateMessageComment(ctx, req.(*CreateMessageCommentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MessageService_ListMessageComments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMessageCommentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MessageServiceServer).ListMessageComments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MessageService_ListMessageComments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MessageServiceServer).ListMessageComments(ctx, req.(*ListMessageCommentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MessageService_ServiceDesc is the grpc.ServiceDesc for MessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -133,12 +232,24 @@ var MessageService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MessageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "CreateMessage",
+			Handler:    _MessageService_CreateMessage_Handler,
+		},
+		{
 			MethodName: "ListMessages",
 			Handler:    _MessageService_ListMessages_Handler,
 		},
 		{
 			MethodName: "GetMessage",
 			Handler:    _MessageService_GetMessage_Handler,
+		},
+		{
+			MethodName: "CreateMessageComment",
+			Handler:    _MessageService_CreateMessageComment_Handler,
+		},
+		{
+			MethodName: "ListMessageComments",
+			Handler:    _MessageService_ListMessageComments_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,8 +1,12 @@
 #!/bin/bash
 
+go1.21.1 version
+
 goBuilds=(
-#  "darwin/arm64"
+  "darwin/arm64"
+#  "darwin/amd64"
   "linux/amd64"
+#  "linux/arm64"
 )
 ldFlags=(
   "-s" # Omit symbol table and debug information
@@ -86,12 +90,12 @@ for build in "${goBuilds[@]}"; do
     output="$output.exe"
   fi
 
-  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go build -trimpath -ldflags="${ldFlags[*]}" -o "$output" ./main.go
+  CGO_ENABLED=0 GOOS=$os GOARCH=$arch go1.21.1 build -trimpath -ldflags="${ldFlags[*]}" -v -o "$output" ./main.go
 
   echo -e "\033[34mBuilding $os/$arch to $output...\033[0m"
-  GOOS=$os GOARCH=$arch go build -ldflags="${ldFlags[*]}" -o "./build/mercury-$os-$arch" ./main.go
+  GOOS=$os GOARCH=$arch go1.21.1 build -ldflags="${ldFlags[*]}" -v -o "./build/mercury-$os-$arch" ./main.go
   if [ $? -ne 0 ]; then
-    echo -e "\033[0;31mgo build failed for $os/$arch($output)! See above.\033[0m"
+    echo -e "\033[0;31mgo1.21.1 build failed for $os/$arch($output)! See above.\033[0m"
   fi
 done
 
@@ -105,7 +109,7 @@ then
     exit 1
 fi
 
-cho -e "\033[35mRestoring frontend placeholder...\033[0m"
+echo -e "\033[35mRestoring frontend placeholder...\033[0m"
 mv "$repo_root"/server/dist.bak "$repo_root"/server/dist
 if [ $? -ne 0 ]
 then

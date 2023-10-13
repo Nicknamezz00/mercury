@@ -23,21 +23,11 @@
  *
  */
 
-package store
+package v1
 
-type RowStatus string
+import "github.com/Nicknamezz00/mercury/internal/types"
 
 const (
-	Normal   RowStatus = "NORMAL"
-	Archived RowStatus = "ARCHIVED"
+	SystemSettingServerIDName      types.SystemSettingName = "server-id"
+	SystemSettingSecretSessionName types.SystemSettingName = "secret-session"
 )
-
-func (r RowStatus) String() string {
-	switch r {
-	case Normal:
-		return "NORMAL"
-	case Archived:
-		return "ARCHIVED"
-	}
-	return "NORMAL"
-}

@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SystemService_GetSystemInfo_FullMethodName    = "/memos.api.v2.SystemService/GetSystemInfo"
-	SystemService_UpdateSystemInfo_FullMethodName = "/memos.api.v2.SystemService/UpdateSystemInfo"
+	SystemService_GetSystemInfo_FullMethodName    = "/mercury.api.v2.SystemService/GetSystemInfo"
+	SystemService_UpdateSystemInfo_FullMethodName = "/mercury.api.v2.SystemService/UpdateSystemInfo"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -129,7 +129,7 @@ func _SystemService_UpdateSystemInfo_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SystemService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "memos.api.v2.SystemService",
+	ServiceName: "mercury.api.v2.SystemService",
 	HandlerType: (*SystemServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

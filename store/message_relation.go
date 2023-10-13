@@ -27,44 +27,46 @@ package store
 
 import (
 	"context"
-	"database/sql"
-)
-
-type MessageRelationType string
-
-const (
-	MessageRelationReference  MessageRelationType = "REFERENCE"
-	MessageRelationAdditional MessageRelationType = "ADDITIONAL"
+	"github.com/Nicknamezz00/mercury/internal/types"
 )
 
 type MessageRelation struct {
-	MessageID      int32
-	RelatedMessage int32
-	Type           MessageRelationType
+	MessageID        int32
+	RelatedMessageID int32
+	Type             types.MessageRelationType
 }
 
 type FindMessageRelation struct {
-	MessageID      *int32
-	RelatedMessage *int32
-	Type           *MessageRelationType
+	MessageID        *int32
+	RelatedMessageID *int32
+	Type             *types.MessageRelationType
 }
 
 type DeleteMessageRelation struct {
-	MessageID      *int32
-	RelatedMessage *int32
-	Type           *MessageRelationType
+	MessageID        *int32
+	RelatedMessageID *int32
+	Type             *types.MessageRelationType
 }
 
-func vacuumMessageRelation(ctx context.Context, tx *sql.Tx) error {
-	stmt := `
-		DELETE FROM
-			message_relation
-		WHERE
-			message_id NOT IN (SELECT id FROM message)
-			OR related_message_id NOT IN (SELECT id FROM message)
-	`
-	if _, err := tx.ExecContext(ctx, stmt); err != nil {
-		return err
+func (s *Store) UpsertMessageRelation(ctx context.Context, create *MessageRelation) (*MessageRelation, error) {
+	return s.driver.UpsertMessageRelation(ctx, create)
+}
+
+func (s *Store) ListMessageRelations(ctx context.Context, find *FindMessageRelation) ([]*MessageRelation, error) {
+	return s.driver.ListMessageRelations(ctx, find)
+}
+
+func (s *Store) GetMessageRelation(ctx context.Context, find *FindMessageRelation) (*MessageRelation, error) {
+	list, err := s.ListMessageRelations(ctx, find)
+	if err != nil {
+		return nil, err
 	}
-	return nil
+	if len(list) == 0 {
+		return nil, nil
+	}
+	return list[0], nil
+}
+
+func (s *Store) DeleteMessageRelation(ctx context.Context, delete *DeleteMessageRelation) error {
+	return s.driver.DeleteMessageRelation(ctx, delete)
 }

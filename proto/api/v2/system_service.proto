@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package memos.api.v2;
+package mercury.api.v2;
 
 import "google/api/annotations.proto";
 

@@ -27,3 +27,4 @@ go.work
 # https://github.com/googleapis/googleapis/tree/master/google/api
 proto/google
 *.db
+/build

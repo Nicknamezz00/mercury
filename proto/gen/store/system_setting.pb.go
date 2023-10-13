@@ -72,7 +72,7 @@ type BackupConfig struct {
 	unknownFields protoimpl.UnknownFields
 
 	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// For more infomation about cron expression
+	// For more information about cron expression
 	// see: https://pkg.go.dev/github.com/robfig/cron?utm_source=godoc#hdr-CRON_Expression_Format
 	Cron string `protobuf:"bytes,2,opt,name=cron,proto3" json:"cron,omitempty"`
 	// number of backups to keep.

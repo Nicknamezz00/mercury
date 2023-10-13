@@ -29,18 +29,18 @@ import (
 	"context"
 	"fmt"
 	"github.com/Nicknamezz00/mercury/store"
-	"github.com/Nicknamezz00/mercury/store/db"
+	"github.com/Nicknamezz00/mercury/store/db/sqlite"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"time"
 )
 
 var (
-	setupCmdFlagHostUsername = ""
-	setupCmdFlagHostPassword = ""
+	setupCmdFlagHostUsername = "username"
+	setupCmdFlagHostPassword = "password"
 	setupCmd                 = &cobra.Command{
 		Use:   "setup",
-		Short: "Setup for mercury",
+		Short: "Initial setup",
 		Run: func(cmd *cobra.Command, _ []string) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
@@ -55,17 +55,16 @@ var (
 				fmt.Printf("failed to get host password, error: %v\n", err)
 				return
 			}
-
-			db := db.New(profile)
-			if err := db.Open(); err != nil {
-				fmt.Printf("failed to open db, error: %v\n", err)
+			driver, err := sqlite.NewDB(profile)
+			if err != nil {
+				fmt.Printf("failed to create db driver, error: %+v\n", err)
 				return
 			}
-			if err := db.Migrate(ctx); err != nil {
-				fmt.Printf("failed to migrate db, error: %v\n", err)
+			if err := driver.Migrate(ctx); err != nil {
+				fmt.Printf("failed to migrate db, error: %+v\n", err)
 				return
 			}
-			s := store.New(db.DBInstance, profile)
+			s := store.New(driver, profile)
 			if err := setup(ctx, s, hostUsername, hostPassword); err != nil {
 				fmt.Printf("failed to setup, error: %v\n", err)
 				return
@@ -73,6 +72,12 @@ var (
 		},
 	}
 )
+
+func init() {
+	setupCmd.Flags().String(setupCmdFlagHostUsername, "", "Owner username")
+	setupCmd.Flags().String(setupCmdFlagHostPassword, "", "Owner password")
+	rootCmd.AddCommand(setupCmd)
+}
 
 type setupService struct {
 	store *store.Store

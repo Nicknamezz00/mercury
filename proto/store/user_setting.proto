@@ -8,7 +8,7 @@ message UserSetting {
   int32 user_id = 1;
   UserSettingKey key = 2;
   oneof value {
-    AccessTokensUserSetting access_token = 3;
+    AccessTokensUserSetting access_tokens = 3;
   }
 }
 

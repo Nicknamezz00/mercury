@@ -21,3 +21,47 @@
 // SOFTWARE.
 
 type Visibility = "PUBLIC" | "PROTECTED" | "PRIVATE";
+
+type MessageId = number;
+
+interface Message {
+  id: MessageId;
+  creatorUsername: string;
+  createdTimestamp: number;
+  updatedTimestamp: number;
+  rowStatus: RowStatus;
+  displayTimestamp: number;
+  content: string;
+  visibility: Visibility;
+  pinned: boolean;
+  creatorName: string;
+  resourceList: any[];
+  relationList: MessageRelation[];
+  parent?: Message;
+}
+
+interface MessageCreate {
+  content: string;
+  resourceIdList: ResourceId[];
+  relationList: MessageRelationUpsert[];
+  visibility?: Visibility;
+}
+
+interface MessagePatch {
+  id: MessageId;
+  createdTimestamp?: number;
+  rowStatus?: RowStatus;
+  content?: string;
+  visibility: Visibility;
+  resourceIdList?: ResourceId[];
+  relationList?: MessageRelationUpsert[];
+}
+
+interface MessageFind {
+  creatorUsername?: string;
+  rowStatus?: RowStatus;
+  pinned?: boolean;
+  visibility?: Visibility;
+  offset?: number;
+  limit?: number;
+}
