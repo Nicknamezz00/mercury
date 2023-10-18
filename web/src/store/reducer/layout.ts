@@ -22,25 +22,34 @@
  * SOFTWARE.
  *
  */
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-package constants
+interface State {
+  showHeader: boolean;
+  showHomeSidebar: boolean;
+}
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
+const layoutSlice = createSlice({
+  name: "layout",
+  initialState: {
+    showHeader: false,
+    showHomeSidebar: false,
+  } as State,
+  reducers: {
+    setHeaderStatus: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        showHeader: action.payload,
+      };
+    },
+    setHomeSidebarStatus: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        showHomeSidebar: action.payload,
+      };
+    },
+  },
+});
 
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
-
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
-
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export const { setHeaderStatus, setHomeSidebarStatus } = layoutSlice.actions;
+export default layoutSlice.reducer;

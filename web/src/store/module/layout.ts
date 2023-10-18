@@ -22,25 +22,21 @@
  * SOFTWARE.
  *
  */
+import store, { useAppSelector } from "@/store";
+import { setHeaderStatus, setHomeSidebarStatus } from "@/store/reducer/layout";
 
-package constants
-
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
-
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
-
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
-
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export const useLayoutStore = () => {
+  const state = useAppSelector((state) => state.layout);
+  return {
+    state,
+    getState: () => {
+      return store.getState().tag;
+    },
+    setHeaderStatus: (showHeader: boolean) => {
+      store.dispatch(setHeaderStatus(showHeader));
+    },
+    setHomeSidebarStatus: (showHomeSidebar: boolean) => {
+      store.dispatch(setHomeSidebarStatus(showHomeSidebar));
+    },
+  };
+};

@@ -1,0 +1,16 @@
+root = "."
+tmp_dir = ".air"
+
+[build]
+bin = "./.air/mercury --mode dev"
+cmd = "go1.21.1 build -o ./.air/mercury ./main.go"
+delay = 1000
+exclude_dir = [".air", "web", "build"]
+exclude_file = []
+exclude_regex = []
+exclude_unchanged = false
+follow_symlink = false
+full_bin = ""
+send_interrupt = true
+kill_delay = 2000
+stop_on_error = true

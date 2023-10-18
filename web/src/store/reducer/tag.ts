@@ -22,25 +22,43 @@
  * SOFTWARE.
  *
  */
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-package constants
+interface State {
+  tags: string[];
+}
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
+const tagSlice = createSlice({
+  name: "tag",
+  initialState: {
+    tags: [],
+  } as State,
+  reducers: {
+    setTags: (state, action: PayloadAction<string[]>) => {
+      return {
+        ...state,
+        tags: action.payload,
+      };
+    },
+    upsertTag: (state, action: PayloadAction<string>) => {
+      if (state.tags.includes(action.payload)) {
+        return state;
+      }
+      return {
+        ...state,
+        tags: state.tags.concat(action.payload),
+      };
+    },
+    deleteTag: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        tags: state.tags.filter((tag) => {
+          return tag !== action.payload;
+        }),
+      };
+    },
+  },
+});
 
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
-
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
-
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export const { setTags, upsertTag, deleteTag } = tagSlice.actions;
+export default tagSlice.reducer;

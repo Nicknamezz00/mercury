@@ -22,25 +22,8 @@
  * SOFTWARE.
  *
  */
-
-package constants
-
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
-
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
-
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
-
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+const TagList = () => {
+  // TODO
+  return <div></div>;
+};
+export default TagList;

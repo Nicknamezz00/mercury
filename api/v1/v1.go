@@ -75,4 +75,6 @@ func (s *APIV1Service) Register(root *echo.Group) {
 	apiV1Group.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return JWTMiddleware(s, next, s.Secret)
 	})
+	// Register routes:
+	s.registerSystemRoutes(apiV1Group)
 }

@@ -22,8 +22,21 @@
  * SOFTWARE.
  *
  */
-import { createBrowserRouter } from "react-router-dom";
+import { useEffect } from "react";
+import { useUserStore } from "@/store/module";
+import { useUserV1Store } from "@/store/v1";
 
-const router = createBrowserRouter([{}]);
+const useCurrentUser = () => {
+  const userStore = useUserStore();
+  const userV1Store = useUserV1Store();
+  const currentUsername = userStore.state.user?.username;
 
-export default router;
+  useEffect(() => {
+    if (currentUsername) {
+      userV1Store.getOrFetchUserByUsername(currentUsername);
+    }
+  }, [currentUsername]);
+  return userV1Store.getOrFetchUserByUsername(currentUsername || "");
+};
+
+export default useCurrentUser;

@@ -28,6 +28,25 @@ package v1
 import "github.com/Nicknamezz00/mercury/internal/types"
 
 const (
-	SystemSettingServerIDName      types.SystemSettingName = "server-id"
-	SystemSettingSecretSessionName types.SystemSettingName = "secret-session"
+	SystemSettingServerIDName                           types.SystemSettingName = "server-id"
+	SystemSettingSecretSessionName                      types.SystemSettingName = "secret-session"
+	SystemSettingAllowSignUpName                        types.SystemSettingName = "allow-signup"
+	SystemSettingDisablePasswordLoginName               types.SystemSettingName = "disable-password-login"
+	SystemSettingDisablePublicMessagesName              types.SystemSettingName = "disable-public-messages"
+	SystemSettingMaxUploadSizeMiBName                   types.SystemSettingName = "max-upload-size-mib"
+	SystemSettingAdditionalStyleName                    types.SystemSettingName = "additional-style"
+	SystemSettingAdditionalScriptName                   types.SystemSettingName = "additional-script"
+	SystemSettingCustomizedProfileName                  types.SystemSettingName = "customized-profile"
+	SystemSettingLocalStoragePathName                   types.SystemSettingName = "local-storage-path"
+	SystemSettingMessageDisplayWithUpdatedTimestampName types.SystemSettingName = "message-display-with-updated-timestamp"
+	SystemSettingAutoBackupIntervalName                 types.SystemSettingName = "auto-backup-interval"
 )
+
+type CustomizedProfile struct {
+	Name        string `json:"name"`
+	LogoURL     string `json:"logoURL"`
+	Description string `json:"description"`
+	Locale      string `json:"locale"`
+	Appearance  string `json:"appearance"`
+	ExternalURL string `json:"externalURL"`
+}

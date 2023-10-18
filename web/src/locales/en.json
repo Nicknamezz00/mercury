@@ -326,7 +326,7 @@
     "powered-by": "Powered by",
     "other-projects": "Other Projects"
   },
-  "message": {
+  "info": {
     "no-data": "No data found.",
     "messages-ready": "all messages are ready",
     "resource-ready": "all resource are ready",

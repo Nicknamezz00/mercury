@@ -22,25 +22,22 @@
  * SOFTWARE.
  *
  */
+import { Outlet } from "react-router-dom";
 
-package constants
+function Root() {
+  return (
+    <div className="w-full min-h-full bg-zinc-100 dark:bg-zinc-800">
+      <div className="w-full h-auto flex flex-col justify-start items-center">
+        <div>ROOT</div>
+      </div>
+      <div className="w-full max-w-6xl mx-auto flex flex-row justify-center items-start sm:px-4">
+        <div>HEADER</div>
+        <main className="w-auto max-w-full sm:max-w-[calc(100%-14rem)] flex-grow shrink flex flex-col justify-start items-start">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
-
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
-
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
-
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export default Root;

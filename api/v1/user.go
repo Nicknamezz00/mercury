@@ -27,14 +27,30 @@ package v1
 
 import "github.com/Nicknamezz00/mercury/internal/types"
 
-type Role string
+type User struct {
+	ID int32 `json:"id"`
+
+	// Standard fields
+	RowStatus types.RowStatus `json:"rowStatus"`
+	CreatedTs int64           `json:"createdTs"`
+	UpdatedTs int64           `json:"updatedTs"`
+
+	// Domain specific fields
+	Username        string         `json:"username"`
+	Role            types.Role     `json:"role"`
+	Email           string         `json:"email"`
+	Nickname        string         `json:"nickname"`
+	PasswordHash    string         `json:"-"`
+	AvatarURL       string         `json:"avatarUrl"`
+	UserSettingList []*UserSetting `json:"userSettingList"`
+}
 
 type CreateUserRequest struct {
-	Username string `json:"username"`
-	Role     Role   `json:"role"`
-	Email    string `json:"email"`
-	Nickname string `json:"nickname"`
-	Password string `json:"password"`
+	Username string     `json:"username"`
+	Role     types.Role `json:"role"`
+	Email    string     `json:"email"`
+	Nickname string     `json:"nickname"`
+	Password string     `json:"password"`
 }
 
 type UpdateUserRequest struct {

@@ -22,25 +22,37 @@
  * SOFTWARE.
  *
  */
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-package constants
+interface Duration {
+  from: number;
+  to: number;
+}
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
+interface State {
+  tag?: string;
+  duration?: Duration;
+  text?: string;
+  visibility?: Visibility;
+}
 
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
+export type Filter = State;
 
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
+const filterSlice = createSlice({
+  name: "filter",
+  initialState: {} as State,
+  reducers: {
+    setFilter: (state, action: PayloadAction<Partial<State>>) => {
+      if (JSON.stringify(action.payload) === state) {
+        return state;
+      }
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
+  },
+});
 
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export const { setFilter } = filterSlice.actions;
+export default filterSlice.reducer;

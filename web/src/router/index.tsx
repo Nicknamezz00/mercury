@@ -22,25 +22,52 @@
  * SOFTWARE.
  *
  */
+import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import App from "@/App";
+import Home from "@/pages/Home";
+import { initialGlobalState, initialUserState } from "@/store/module";
 
-package constants
+const Root = lazy(() => import("@/layouts/Root"));
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
+const initialGlobalStateLoader = async () => {
+  try {
+    await initialGlobalState();
+  } catch (error) {
+    // ignore
+  }
+  return null;
+};
 
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
+const initialUserStateLoader = () => {
+  // const user = undefined;
+  try {
+    // user = await initialUserState()
+  } catch (error) {
+    // ignore
+  }
+  return null;
+};
 
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    loader: () => initialGlobalStateLoader(),
+    children: [
+      {
+        path: "/",
+        element: <Root />,
+        children: [
+          {
+            path: "",
+            element: <Home />,
+            loader: () => initialUserStateLoader(),
+          },
+        ],
+      },
+    ],
+  },
+]);
 
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+export default router;

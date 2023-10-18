@@ -22,25 +22,48 @@
  * SOFTWARE.
  *
  */
+import useCurrentUser from "@/hooks/useCurrentUser";
+import { tagServiceClient } from "@/rpc";
+import store, { useAppSelector } from "..";
+import { deleteTag as deleteTagAction, setTags, upsertTag as upsertTagAction } from "../reducer/tag";
 
-package constants
+export const useTagStore = () => {
+  const state = useAppSelector((state) => state.tag);
+  const currentUser = useCurrentUser();
 
-// Environment constants.
-const (
-	PRODUCTION = "production"
-	DEV        = "dev"
-	DEMO       = "demo"
-)
+  const getState = () => {
+    return store.getState().tag;
+  };
 
-// Driver constants.
-const (
-	SQLITE = "sqlite"
-	MYSQL  = "mysql"
-)
+  const fetchTags = async () => {
+    const { tags } = await tagServiceClient.listTags({
+      creatorId: (await currentUser).id,
+    });
+    store.dispatch(setTags(tags.map((tag) => tag.name)));
+  };
 
-// Appearance constants.
-const (
-	APPEARANCE_SYSTEM = "system"
-)
+  const upsertTag = async (tagName: string) => {
+    await tagServiceClient.upsertTag({
+      name: tagName,
+    });
+    store.dispatch(upsertTagAction(tagName));
+  };
 
-const LOCAL_STORAGE_PATH = "assets/{timestamp}_{filename}"
+  const deleteTag = async (tagName: string) => {
+    await tagServiceClient.deleteTag({
+      tag: {
+        name: tagName,
+        creatorId: (await currentUser).id,
+      },
+    });
+    store.dispatch(deleteTagAction(tagName));
+  };
+
+  return {
+    state,
+    getState,
+    fetchTags,
+    upsertTag,
+    deleteTag,
+  };
+};
