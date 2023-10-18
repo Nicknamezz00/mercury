@@ -101,7 +101,7 @@ func (d *DB) Migrate(ctx context.Context) error {
 				if err != nil {
 					return errors.Wrap(err, "failed to read raw database file")
 				}
-				backupDBFilePath := fmt.Sprintf("%s/memos_%s_%d_backup.db", d.profile.Data, d.profile.Version, time.Now().Unix())
+				backupDBFilePath := fmt.Sprintf("%s/mercury_%s_%d_backup.db", d.profile.Data, d.profile.Version, time.Now().Unix())
 				if err := os.WriteFile(backupDBFilePath, rawBytes, 0644); err != nil {
 					return errors.Wrap(err, "failed to write raw database file")
 				}
@@ -130,8 +130,10 @@ func (d *DB) Migrate(ctx context.Context) error {
 			if err := d.applyLatestSchema(ctx); err != nil {
 				return errors.Wrap(err, "failed to apply latest schema in non-production mode")
 			}
+			fmt.Println("print mode", d.profile.Mode)
 			// In demo mode, we should seed the database.
 			if d.profile.Mode == "demo" {
+				println("populating seed...")
 				if err := d.seed(ctx); err != nil {
 					return errors.Wrap(err, "failed to seed")
 				}

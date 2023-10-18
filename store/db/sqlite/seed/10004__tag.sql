@@ -23,36 +23,17 @@
  *
  */
 
-package util
+INSERT INTO
+  tag (`name`, `creator_id`)
+VALUES
+  ('Hello', 101);
 
-import (
-	"net/mail"
-	"strconv"
-	"strings"
-)
+INSERT INTO
+  tag (`name`, `creator_id`)
+VALUES
+  ('TODO', 101);
 
-// ConvertStringToInt32 converts a string to int32, be careful with int32 overflow.
-func ConvertStringToInt32(s string) (int32, error) {
-	n, err := strconv.Atoi(s)
-	if err != nil {
-		return 0, err
-	}
-	return int32(n), nil
-}
-
-func HasPrefixes(src string, prefixes ...string) bool {
-	for _, pre := range prefixes {
-		if strings.HasPrefix(src, pre) {
-			return true
-		}
-	}
-	return false
-}
-
-// ValidateEmail validates the email.
-func ValidateEmail(email string) bool {
-	if _, err := mail.ParseAddress(email); err != nil {
-		return false
-	}
-	return true
-}
+INSERT INTO
+  tag (`name`, `creator_id`)
+VALUES
+  ('TODO', 102);

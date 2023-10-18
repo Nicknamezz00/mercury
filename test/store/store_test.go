@@ -27,21 +27,10 @@ package teststore
 
 import (
 	"context"
-	"fmt"
 	"github.com/Nicknamezz00/mercury/store"
-	db2 "github.com/Nicknamezz00/mercury/store/db"
-	"github.com/Nicknamezz00/mercury/test"
 	"testing"
 )
 
 func NewTestingStore(ctx context.Context, t *testing.T) *store.Store {
-	profile := test.NewTestingProfile(t)
-	db := db2.New(profile)
-	if err := db.Open(); err != nil {
-		fmt.Printf("failed to open db, error: %+v\n", err)
-	}
-	if err := db.Migrate(ctx); err != nil {
-		fmt.Printf("failed to migrate db, error: %+v\n", err)
-	}
-	return store.New(db.DBInstance, profile)
+	return nil
 }

@@ -30,6 +30,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Nicknamezz00/mercury/common/log"
+	"github.com/Nicknamezz00/mercury/internal/constants"
 	"github.com/Nicknamezz00/mercury/server"
 	_profile "github.com/Nicknamezz00/mercury/server/profile"
 	"github.com/Nicknamezz00/mercury/store"
@@ -134,8 +135,8 @@ func init() {
 		panic(err)
 	}
 
-	viper.SetDefault("mode", "demo")
-	viper.SetDefault("driver", "sqlite")
+	viper.SetDefault("mode", constants.DEMO)
+	viper.SetDefault("driver", constants.SQLITE)
 	viper.SetDefault("addr", "")
 	viper.SetDefault("port", 8081)
 	viper.SetEnvPrefix("mercury")

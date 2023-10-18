@@ -28,10 +28,13 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"github.com/Nicknamezz00/mercury/common/util"
+	"github.com/Nicknamezz00/mercury/internal/types"
 	"github.com/Nicknamezz00/mercury/store"
 	"github.com/Nicknamezz00/mercury/store/db/sqlite"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -83,7 +86,7 @@ type setupService struct {
 	store *store.Store
 }
 
-func (s setupService) Setup(ctx context.Context, username string, password string) error {
+func (s setupService) setup(ctx context.Context, username string, password string) error {
 	if err := s.makeSureHostUserNotExists(ctx); err != nil {
 		return err
 	}
@@ -94,16 +97,65 @@ func (s setupService) Setup(ctx context.Context, username string, password strin
 }
 
 func (s setupService) createUser(ctx context.Context, username string, password string) error {
-	panic("impl me")
+	userCreate := &store.User{
+		Username: username,
+		// The new signup user should be normal user by default.
+		Role:     types.RoleHost,
+		Nickname: username,
+	}
+
+	if len(userCreate.Username) < 3 {
+		return errors.New("username is too short, minimum length is 3")
+	}
+	if len(userCreate.Username) > 32 {
+		return errors.New("username is too long, maximum length is 32")
+	}
+	if len(password) < 3 {
+		return errors.New("password is too short, minimum length is 3")
+	}
+	if len(password) > 512 {
+		return errors.New("password is too long, maximum length is 512")
+	}
+	if len(userCreate.Nickname) > 64 {
+		return errors.New("nickname is too long, maximum length is 64")
+	}
+	if userCreate.Email != "" {
+		if len(userCreate.Email) > 256 {
+			return errors.New("email is too long, maximum length is 256")
+		}
+		if !util.ValidateEmail(userCreate.Email) {
+			return errors.New("invalid email format")
+		}
+	}
+
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return errors.Wrap(err, "failed to hash password")
+	}
+	userCreate.PasswordHash = string(passwordHash)
+	if _, err := s.store.CreateUser(ctx, userCreate); err != nil {
+		return errors.Wrap(err, "failed to create user")
+	}
+	return nil
 }
 
 func (s setupService) makeSureHostUserNotExists(ctx context.Context) error {
-	panic("impl me")
+	r := types.RoleHost
+	exist, err := s.store.ListUsers(ctx, &store.FindUser{
+		Role: &r,
+	})
+	if err != nil {
+		return errors.Wrap(err, "find user list")
+	}
+	if len(exist) != 0 {
+		return errors.New("host user already exists")
+	}
+	return nil
 }
 
 func setup(ctx context.Context, s *store.Store, username string, password string) error {
 	svc := setupService{
 		store: s,
 	}
-	return svc.Setup(ctx, username, password)
+	return svc.setup(ctx, username, password)
 }
