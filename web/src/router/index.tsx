@@ -23,7 +23,7 @@
  *
  */
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import App from "@/App";
 import Home from "@/pages/Home";
 import { initialGlobalState, initialUserState } from "@/store/module";
@@ -39,12 +39,15 @@ const initialGlobalStateLoader = async () => {
   return null;
 };
 
-const initialUserStateLoader = () => {
-  // const user = undefined;
+const initialUserStateLoader = async (redirectWhenNotFound = true) => {
+  let user = undefined;
   try {
-    // user = await initialUserState()
+    user = await initialUserState();
   } catch (error) {
     // ignore
+  }
+  if (!user && redirectWhenNotFound) {
+    return redirect("/explore");
   }
   return null;
 };
