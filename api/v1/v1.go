@@ -77,4 +77,5 @@ func (s *APIV1Service) Register(root *echo.Group) {
 	})
 	// Register routes:
 	s.registerSystemRoutes(apiV1Group)
+	s.registerSystemSettingRoutes(apiV1Group)
 }
