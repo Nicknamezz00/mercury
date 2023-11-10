@@ -74,7 +74,7 @@ type UpsertSystemSettingRequest struct {
 
 const systemSettingUnmarshalError = `failed to unmarshal value from system setting "%v"`
 
-func (r UpsertSystemSettingRequest) Validate() interface{} {
+func (r UpsertSystemSettingRequest) Validate() error {
 	switch settingName := r.Name; settingName {
 	case SystemSettingServerIDName:
 		return errors.Errorf("updating %v is not allowed", settingName)
