@@ -28,6 +28,7 @@ package v1
 import (
 	"github.com/Nicknamezz00/mercury/api/auth"
 	"github.com/Nicknamezz00/mercury/common/util"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
 	"net/http"
@@ -112,4 +113,28 @@ func extractTokenFromHeader(c echo.Context) (string, error) {
 func (s *APIV1Service) defaultAuthSkipper(c echo.Context) bool {
 	path := c.Path()
 	return util.HasPrefixes(path, "/api/v1/auth")
+}
+
+func getUserIDFromAccessToken(accessToken, secret string) (int32, error) {
+	claims := &auth.ClaimsMessage{}
+	_, err := jwt.ParseWithClaims(accessToken, claims, func(t *jwt.Token) (any, error) {
+		if t.Method.Alg() != jwt.SigningMethodHS256.Name {
+			return nil, errors.Errorf("unexpected access token signing method=%v, expect %v", t.Header["alg"], jwt.SigningMethodHS256)
+		}
+		if kid, ok := t.Header["kid"].(string); ok {
+			if kid == "v1" {
+				return []byte(secret), nil
+			}
+		}
+		return nil, errors.Errorf("unexpected access token kid=%v", t.Header["kid"])
+	})
+	if err != nil {
+		return 0, errors.Wrap(err, "Invalid or expired access token")
+	}
+	// We either have a valid access token or we will attempt to generate new access token.
+	userID, err := util.ConvertStringToInt32(claims.Subject)
+	if err != nil {
+		return 0, errors.Wrap(err, "Malformed ID in the token")
+	}
+	return userID, nil
 }

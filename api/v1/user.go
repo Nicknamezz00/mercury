@@ -25,7 +25,10 @@
 
 package v1
 
-import "github.com/Nicknamezz00/mercury/internal/types"
+import (
+	"github.com/Nicknamezz00/mercury/internal/types"
+	"github.com/Nicknamezz00/mercury/store"
+)
 
 type User struct {
 	ID int32 `json:"id"`
@@ -55,4 +58,19 @@ type CreateUserRequest struct {
 
 type UpdateUserRequest struct {
 	RowStatus *types.RowStatus
+}
+
+func convertUserFromStore(user *store.User) *User {
+	return &User{
+		ID:           user.ID,
+		RowStatus:    user.RowStatus,
+		CreatedTs:    user.CreatedTimestamp,
+		UpdatedTs:    user.UpdatedTimestamp,
+		Username:     user.Username,
+		Role:         user.Role,
+		Email:        user.Email,
+		Nickname:     user.Nickname,
+		PasswordHash: user.PasswordHash,
+		AvatarURL:    user.AvatarURL,
+	}
 }
