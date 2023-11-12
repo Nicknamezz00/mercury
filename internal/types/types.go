@@ -43,7 +43,7 @@ type Visibility string
 const (
 	Public    Visibility = "PUBLIC"
 	Protected Visibility = "PROTECTED"
-	PRIVATE   Visibility = "PRIVATE"
+	Private   Visibility = "PRIVATE"
 )
 
 func (v Visibility) String() string {
@@ -52,7 +52,7 @@ func (v Visibility) String() string {
 		return "PUBLIC"
 	case Protected:
 		return "PROTECTED"
-	case PRIVATE:
+	case Private:
 		return "PRIVATE"
 	}
 	return "PRIVATE"
@@ -93,3 +93,53 @@ type SystemSettingName string
 func (s SystemSettingName) String() string {
 	return string(s)
 }
+
+// UserSetting type
+type UserSettingKey string
+
+const (
+	UserSettingLocaleKey UserSettingKey = "locale"
+	// UserSettingAppearanceKey is the key type for user appearance.
+	UserSettingAppearanceKey UserSettingKey = "appearance"
+	// UserSettingMessageVisibilityKey is the key type for user preference memo default visibility.
+	UserSettingMessageVisibilityKey UserSettingKey = "message-visibility"
+)
+
+func (key UserSettingKey) String() string {
+	switch key {
+	case UserSettingLocaleKey:
+		return "locale"
+	case UserSettingAppearanceKey:
+		return "appearance"
+	case UserSettingMessageVisibilityKey:
+		return "message-visibility"
+	}
+	return ""
+}
+
+var (
+	UserSettingLocaleValue = []string{
+		"de",
+		"en",
+		"es",
+		"fr",
+		"hi",
+		"hr",
+		"it",
+		"ja",
+		"ko",
+		"nl",
+		"pl",
+		"pt-BR",
+		"ru",
+		"sl",
+		"sv",
+		"tr",
+		"uk",
+		"vi",
+		"zh-Hans",
+		"zh-Hant",
+	}
+	UserSettingAppearanceValue     = []string{"system", "light", "dark"}
+	UserSettingMemoVisibilityValue = []Visibility{Private, Protected, Public}
+)

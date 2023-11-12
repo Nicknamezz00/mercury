@@ -25,6 +25,12 @@
 
 package v1
 
+import (
+	"github.com/Nicknamezz00/mercury/internal/types"
+)
+
 type UserSetting struct {
-	// TODO
+	UserID int32                `json:"userId"`
+	Key    types.UserSettingKey `json:"key"`
+	Value  string               `json:"value"`
 }
